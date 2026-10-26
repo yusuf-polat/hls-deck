@@ -1,0 +1,84 @@
+{
+  "name": "hls-deck",
+  "productName": "HLS Deck",
+  "version": "1.0.0",
+  "description": "Header'ları korunan HLS (m3u8) yayınları için masaüstü oynatıcı ve tarayıcı köprüsü",
+  "main": "main.js",
+  "author": {
+    "name": "Yusuf Polat",
+    "url": "https://github.com/yusuf-polat"
+  },
+  "license": "GPL-3.0-only",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "test": "node --test test/*.test.js",
+    "assets": "electron scripts/render-assets.js",
+    "pack:extension": "node scripts/pack-extension.js",
+    "dist": "electron-builder --win nsis portable && node scripts/pack-extension.js"
+  },
+  "build": {
+    "appId": "io.github.yusuf-polat.hlsdeck",
+    "productName": "HLS Deck",
+    "files": [
+      "main.js",
+      "preload.js",
+      "src/**",
+      "renderer/**",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "extension",
+        "to": "extension"
+      }
+    ],
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ],
+      "icon": "build/icon.ico",
+      "signExecutable": false
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "artifactName": "HLS-Deck-Setup-${version}.exe",
+      "installerIcon": "build/icon.ico",
+      "uninstallerIcon": "build/icon.ico",
+      "shortcutName": "HLS Deck",
+      "license": "LICENSE"
+    },
+    "portable": {
+      "artifactName": "HLS-Deck-${version}-portable.exe"
+    },
+    "copyright": "Copyright © 2026 Yusuf Polat"
+  },
+  "dependencies": {
+    "hls.js": "^1.7.3"
+  },
+  "devDependencies": {
+    "electron": "^45.0.0",
+    "electron-builder": "^26.18.0"
+  },
+  "homepage": "https://github.com/yusuf-polat/hls-deck",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yusuf-polat/hls-deck.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yusuf-polat/hls-deck/issues"
+  },
+  "keywords": [
+    "hls",
+    "m3u8",
+    "video-player",
+    "electron",
+    "browser-extension",
+    "live-streaming"
+  ]
+}

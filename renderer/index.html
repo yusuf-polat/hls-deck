@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy"
+      content="default-src 'self' file:; script-src 'self' file:; style-src 'self' file: 'unsafe-inline'; media-src blob: stream:; connect-src stream:; worker-src blob:; img-src 'self' file: data:">
+<title>HLS Deck</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<!-- ikon seti: <svg class="ic"><use href="#i-…"/></svg> -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></symbol>
+    <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m16 16 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 4 2.4 5 5.4.6-4 3.7 1.1 5.4L12 16l-4.9 2.7 1.1-5.4-4-3.7 5.4-.6z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
+    <symbol id="i-star-fill" viewBox="0 0 24 24"><path d="m12 4 2.4 5 5.4.6-4 3.7 1.1 5.4L12 16l-4.9 2.7 1.1-5.4-4-3.7 5.4-.6z" fill="currentColor" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
+    <symbol id="i-edit" viewBox="0 0 24 24"><path d="M4.5 19.5h4l10-10a2.8 2.8 0 0 0-4-4l-10 10zM13.5 6.5l4 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M5 7h14M10 7V5h4v2M7 7l1 12h8l1-12" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-puzzle" viewBox="0 0 24 24"><path d="M9 4.5a2 2 0 0 1 4 0V6h4a1 1 0 0 1 1 1v4h-1.5a2 2 0 0 0 0 4H18v4a1 1 0 0 1-1 1h-4v-1.5a2 2 0 0 0-4 0V20H5a1 1 0 0 1-1-1v-4h1.5a2 2 0 0 0 0-4H4V7a1 1 0 0 1 1-1h4z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+    <symbol id="i-key" viewBox="0 0 24 24"><circle cx="8" cy="14" r="3.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="m10.5 11.5 8-8M16 6l2.5 2.5M14 8l2 2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+    <symbol id="i-pip" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.7"/><rect x="12" y="11.5" width="6.5" height="5" rx="1" fill="currentColor"/></symbol>
+    <symbol id="i-stop" viewBox="0 0 24 24"><rect x="6.5" y="6.5" width="11" height="11" rx="2" fill="currentColor"/></symbol>
+    <symbol id="i-more" viewBox="0 0 24 24"><circle cx="6" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="18" cy="12" r="1.6" fill="currentColor"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v11m-4.5-4.5L12 15l4.5-4.5M5 19.5h14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 15V4M7.5 8.5 12 4l4.5 4.5M5 19.5h14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="m6.5 6.5 11 11m0-11-11 11" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 4 2.8 19.5h18.4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M12 10v4.2" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><circle cx="12" cy="17" r="1.1" fill="currentColor"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 11v5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><circle cx="12" cy="8" r="1.1" fill="currentColor"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M19 12a7 7 0 1 1-2.1-5M19 4.5V8h-3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-external" viewBox="0 0 24 24"><path d="M13.5 5H19v5.5M19 5l-8 8M17 14v4a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1h4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-terminal" viewBox="0 0 24 24"><rect x="3" y="4.5" width="18" height="15" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="m7 9.5 3 2.5-3 2.5M12.5 15H17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  </defs>
+</svg>
+
+<header class="top">
+  <div class="brand"><img src="icon.png" alt="" class="logo"><span>HLS Deck</span></div>
+  <div class="command">
+    <svg class="ic"><use href="#i-link"/></svg>
+    <textarea id="quick" rows="1" spellcheck="false"
+              placeholder="cURL komutunu ya da m3u8 adresini yapıştır, otomatik ayarlanıp oynatılır"></textarea>
+    <kbd class="hint">Ctrl L</kbd>
+  </div>
+  <button id="quickPlay" class="primary"><svg class="ic"><use href="#i-play"/></svg>Oynat</button>
+</header>
+
+<div class="layout">
+  <aside>
+    <div class="side-head">
+      <div class="side-title">
+        <h2>Yayınlar <span id="listCount" class="count"></span></h2>
+        <button id="newBtn" class="icon-btn" title="Yeni yayın (Ctrl+N)"><svg class="ic"><use href="#i-plus"/></svg></button>
+      </div>
+      <label class="search">
+        <svg class="ic"><use href="#i-search"/></svg>
+        <input id="search" type="search" placeholder="Ara…  (Ctrl+F)">
+      </label>
+      <div id="filters" class="chips" role="tablist">
+        <button class="chip active" data-filter="all">Tümü</button>
+        <button class="chip" data-filter="fav"><svg class="ic"><use href="#i-star-fill"/></svg>Favoriler</button>
+        <button class="chip" data-filter="ext"><svg class="ic"><use href="#i-puzzle"/></svg>Eklenti</button>
+      </div>
+    </div>
+    <ul id="list"></ul>
+    <div class="side-foot">
+      <button id="bridgeBtn" class="bridge" title="Tarayıcı eklentisi bağlantısı">
+        <span id="bridgeDot" class="dot"></span>
+        <span class="bridge-text"><b id="bridgeLabel">Eklenti</b><small id="bridgeSub">kontrol ediliyor…</small></span>
+        <svg class="ic"><use href="#i-puzzle"/></svg>
+      </button>
+      <div class="menu-wrap">
+        <button id="moreBtn" class="icon-btn" title="Diğer"><svg class="ic"><use href="#i-more"/></svg></button>
+        <div id="moreMenu" class="menu hidden">
+          <button id="importBtn"><svg class="ic"><use href="#i-upload"/></svg>Yayınları içe aktar…</button>
+          <button id="exportBtn"><svg class="ic"><use href="#i-download"/></svg>Yayınları dışa aktar…</button>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <main>
+    <div class="video-wrap">
+      <video id="video" controls autoplay playsinline></video>
+      <div id="loading" class="loading hidden"><span class="spinner"></span></div>
+      <div id="overlay" class="overlay hidden">
+        <div class="card error-card">
+          <svg class="ic big"><use href="#i-alert"/></svg>
+          <h3>Yayın oynatılamıyor</h3>
+          <p id="overlayMsg"></p>
+          <div class="overlay-acts">
+            <button id="retryBtn"><svg class="ic"><use href="#i-refresh"/></svg>Tekrar dene</button>
+            <button id="fixBtn" class="primary"><svg class="ic"><use href="#i-edit"/></svg>cURL'ü yenile / düzenle</button>
+          </div>
+        </div>
+      </div>
+      <div id="empty" class="empty">
+        <img src="icon.png" alt="" class="hero">
+        <h1>Ne izlemek istersin?</h1>
+        <p class="lead">Soldaki listeden bir yayın seç ya da yeni bir yayın ekle.</p>
+        <div class="ways">
+          <div class="way">
+            <svg class="ic"><use href="#i-puzzle"/></svg>
+            <h3>Tarayıcı eklentisiyle</h3>
+            <p>Sayfada yayını başlat; m3u8 header'larıyla birlikte otomatik buraya gelir.</p>
+            <button id="emptyExtBtn" class="small">Eklentiyi kur</button>
+            <span id="emptyExtOk" class="ok-line hidden"><svg class="ic"><use href="#i-check"/></svg>Eklenti bağlı</span>
+          </div>
+          <div class="way">
+            <svg class="ic"><use href="#i-terminal"/></svg>
+            <h3>cURL yapıştırarak</h3>
+            <p>DevTools → Network'te <code>.m3u8</code> isteğine sağ tıkla → <b>Copy as cURL</b>, üstteki kutuya yapıştır.</p>
+          </div>
+        </div>
+        <p class="shortcuts"><kbd>Ctrl L</kbd> yapıştır · <kbd>Ctrl F</kbd> ara · <kbd>Ctrl N</kbd> yeni · <kbd>F</kbd> tam ekran · <kbd>M</kbd> sessiz</p>
+      </div>
+    </div>
+
+    <div class="now">
+      <div id="nowAvatar" class="avatar"></div>
+      <div class="now-meta">
+        <strong id="nowName">Yayın seçilmedi</strong>
+        <span class="now-sub"><span id="nowHost"></span><span id="status" class="status">Hazır</span></span>
+      </div>
+      <button id="liveBtn" class="live hidden" title="Canlı noktaya atla"><span class="live-dot"></span><span id="liveText">CANLI</span></button>
+      <span class="spacer"></span>
+      <div id="stats" class="stats"></div>
+      <select id="quality" title="Kalite"><option value="-1">Otomatik</option></select>
+      <div class="tools">
+        <button id="pipBtn" class="icon-btn" title="Resim içinde resim"><svg class="ic"><use href="#i-pip"/></svg></button>
+        <button id="editCurrent" class="icon-btn" title="Yayını düzenle"><svg class="ic"><use href="#i-edit"/></svg></button>
+        <button id="stopBtn" class="icon-btn" title="Durdur"><svg class="ic"><use href="#i-stop"/></svg></button>
+      </div>
+    </div>
+  </main>
+</div>
+
+<dialog id="editor">
+  <form id="editorForm" method="dialog">
+    <div class="dlg-head"><h2 id="editorTitle">Yayın</h2><button type="button" class="icon-btn dlg-close" title="Kapat"><svg class="ic"><use href="#i-close"/></svg></button></div>
+    <div class="grid2">
+      <label>Ad <input name="name" placeholder="Boş bırakılırsa otomatik" autofocus></label>
+      <label>Kaynak sayfa
+        <span class="inline"><input name="pageUrl" spellcheck="false" placeholder="https://…"><button type="button" id="openPage" class="icon-btn" title="Tarayıcıda aç"><svg class="ic"><use href="#i-external"/></svg></button></span>
+      </label>
+    </div>
+    <label>m3u8 ya da token servisi adresi <input name="url" required spellcheck="false" class="mono"></label>
+
+    <details id="curlBox">
+      <summary><svg class="ic"><use href="#i-terminal"/></svg>cURL'den doldur / güncelle</summary>
+      <textarea name="curl" rows="5" spellcheck="false" placeholder="curl 'https://…/index.m3u8' -H 'referer: …'"></textarea>
+      <div class="row"><button type="button" id="fillFromCurl">Ayrıştır ve doldur</button><small id="parseMsg"></small></div>
+    </details>
+
+    <div class="headers-head">
+      <span>Header'lar <small id="headerCount"></small></span>
+      <button type="button" id="addHeader" class="small"><svg class="ic"><use href="#i-plus"/></svg>Header ekle</button>
+    </div>
+    <div id="headerRows"></div>
+
+    <label>Not <textarea name="notes" rows="2"></textarea></label>
+    <label class="check"><input type="checkbox" name="favorite"> Favori (listenin başında tut)</label>
+
+    <menu>
+      <button type="button" id="delBtn" class="danger"><svg class="ic"><use href="#i-trash"/></svg>Sil</button>
+      <span class="spacer"></span>
+      <button type="button" id="cancelBtn">İptal</button>
+      <button type="button" id="saveBtn">Kaydet</button>
+      <button type="button" id="savePlayBtn" class="primary"><svg class="ic"><use href="#i-play"/></svg>Kaydet ve oynat</button>
+    </menu>
+  </form>
+</dialog>
+
+<dialog id="bridgeDlg" class="narrow">
+  <form method="dialog">
+    <div class="dlg-head"><h2>Tarayıcı eklentisi</h2><button class="icon-btn dlg-close" title="Kapat"><svg class="ic"><use href="#i-close"/></svg></button></div>
+    <p class="muted">Eklenti, sayfalarda yakaladığı m3u8 isteklerini header'larıyla birlikte bu uygulamaya gönderir.
+      Uygulamadan kurulan eklenti port ve token'ı kendisi alır; elle kurduysan aşağıdakileri eklenti ayarlarına gir.</p>
+    <div class="status-card">
+      <p id="bridgeStatus"></p>
+      <p id="bridgeClient" class="muted"></p>
+    </div>
+    <div class="grid2 narrow-first">
+      <label>Port <input id="bridgePort" readonly class="mono"></label>
+      <label>Token
+        <span class="inline"><input id="bridgeToken" readonly spellcheck="false" class="mono"><button type="button" id="copyToken">Kopyala</button></span>
+      </label>
+    </div>
+    <menu>
+      <button type="button" id="regenToken" class="danger" title="Eski token geçersiz olur"><svg class="ic"><use href="#i-refresh"/></svg>Token'ı yenile</button>
+      <span class="spacer"></span>
+      <button type="button" id="openExtSetup"><svg class="ic"><use href="#i-puzzle"/></svg>Tarayıcıya kur…</button>
+      <button class="primary">Kapat</button>
+    </menu>
+  </form>
+</dialog>
+
+<dialog id="extDlg" class="narrow">
+  <form method="dialog">
+    <div class="dlg-head"><h2>Tarayıcı eklentisini kur</h2></div>
+    <div id="extPick">
+      <p class="muted">Eklenti, sayfalarda oynayan m3u8 yayınlarını header'larıyla (Referer, Cookie, token…) birlikte
+        otomatik olarak bu uygulamaya gönderir. Hangi tarayıcıyı kullanıyorsun?</p>
+      <div id="extBrowsers" class="choices"></div>
+      <p id="extNone" class="err hidden">Desteklenen tarayıcı bulunamadı (Chrome, Edge, Brave, Opera, Vivaldi, Chromium).</p>
+    </div>
+    <div id="extSteps" class="hidden">
+      <p class="muted"><b id="extBrowserName"></b> eklenti sayfası ve eklenti klasörü açıldı, klasör yolu panoya kopyalandı.</p>
+      <ol class="steps">
+        <li>Eklenti sayfasında <b>Geliştirici modu</b>'nu aç.</li>
+        <li><b>Paketlenmemiş öğe yükle</b> → klasör seçicide <b>Klasör</b> kutusuna yapıştır (<kbd>Ctrl V</kbd>) → <b>Klasör seç</b>.
+          <br><span class="muted">Ya da açılan klasörü eklenti sayfasına sürükleyip bırak.</span></li>
+      </ol>
+      <label>Eklenti klasörü
+        <span class="inline"><input id="extDir" readonly spellcheck="false" class="mono"><button type="button" id="extCopy">Kopyala</button><button type="button" id="extReveal">Klasörü aç</button></span>
+      </label>
+      <p id="extWait" class="warn"></p>
+    </div>
+    <menu>
+      <button type="button" id="extLater">Daha sonra</button>
+      <span class="spacer"></span>
+      <button type="button" id="extBack" class="hidden">Tarayıcıyı değiştir</button>
+      <button type="button" id="extReopen" class="hidden">Eklenti sayfasını tekrar aç</button>
+      <button type="button" id="extInstall" class="primary">Kur</button>
+      <button id="extDone" class="primary hidden">Tamam</button>
+    </menu>
+  </form>
+</dialog>
+
+<div id="toast" class="toast hidden"><svg class="ic"><use id="toastIcon" href="#i-info"/></svg><span id="toastText"></span></div>
+
+<script src="../node_modules/hls.js/dist/hls.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

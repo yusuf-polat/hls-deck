@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="popup.css">
+</head>
+<body>
+<header>
+  <img src="icons/32.png" alt="" class="logo"><strong>HLS Deck</strong>
+  <span id="conn" class="pill">…</span>
+  <span class="spacer"></span>
+  <button id="settingsBtn" class="icon" title="Ayarlar">⚙</button>
+</header>
+
+<section id="settings" class="hidden">
+  <label>Port <input id="port" type="number" min="1" max="65535"></label>
+  <label>Token <input id="token" spellcheck="false" placeholder="Uygulamada 🧩 → Kopyala"></label>
+  <label class="check"><input id="autoSend" type="checkbox"> Sayfadaki ilk m3u8'i otomatik gönder</label>
+  <label class="check"><input id="playOnSend" type="checkbox"> Gönderince uygulamada hemen oynat</label>
+  <div class="row"><button id="saveCfg" class="primary">Kaydet ve test et</button><span id="cfgMsg"></span></div>
+</section>
+
+<section>
+  <div class="row head"><span id="count">Bu sekmede yakalanan m3u8</span><span class="spacer"></span><button id="clearBtn" class="link">Temizle</button></div>
+  <ul id="list"></ul>
+  <p id="empty" class="muted hidden">Henüz m3u8 yakalanmadı. Yayını başlat ya da sayfayı yenile.</p>
+</section>
+
+<script src="popup.js"></script>
+</body>
+</html>

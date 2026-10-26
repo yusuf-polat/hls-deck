@@ -1,0 +1,32 @@
+:root { --bg: #0e0f12; --panel: #16181d; --line: #2a2d36; --fg: #e8e8ea; --muted: #8a8d96; --accent: #4f8cff; --ok: #3ecf8e; --err: #ff6b6b; }
+* { box-sizing: border-box; }
+body { margin: 0; width: 420px; background: var(--bg); color: var(--fg); font: 13px/1.4 "Segoe UI", system-ui, sans-serif; }
+header { display: flex; align-items: center; gap: 8px; padding: 10px 12px; border-bottom: 1px solid var(--line); background: var(--panel); }
+section { padding: 10px 12px; }
+#settings { border-bottom: 1px solid var(--line); display: flex; flex-direction: column; gap: 8px; }
+label { display: flex; flex-direction: column; gap: 3px; color: var(--muted); }
+label.check { flex-direction: row; align-items: center; gap: 6px; color: var(--fg); }
+input:not([type=checkbox]) { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 6px 8px; color: var(--fg); font: 12px Consolas, monospace; }
+button { font: inherit; color: inherit; background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 5px 10px; cursor: pointer; }
+button:hover { border-color: #3a3e4a; }
+button.primary { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; }
+button.icon { padding: 2px 8px; font-size: 15px; }
+button.link { background: none; border: none; color: var(--muted); padding: 0; }
+button.link:hover { color: var(--fg); }
+.row { display: flex; align-items: center; gap: 8px; }
+.head { color: var(--muted); margin-bottom: 6px; }
+.spacer { flex: 1; }
+.hidden { display: none !important; }
+.muted { color: var(--muted); }
+.pill { font-size: 11px; padding: 1px 8px; border-radius: 10px; background: var(--panel); border: 1px solid var(--line); color: var(--muted); }
+.pill.ok { color: var(--ok); border-color: var(--ok); } .pill.err { color: var(--err); border-color: var(--err); }
+#cfgMsg { font-size: 12px; }
+#cfgMsg.ok { color: var(--ok); } #cfgMsg.err { color: var(--err); }
+ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; max-height: 380px; overflow-y: auto; }
+li { border: 1px solid var(--line); border-radius: 8px; padding: 8px; background: var(--panel); }
+.url { font: 12px Consolas, monospace; word-break: break-all; }
+.meta { color: var(--muted); font-size: 11.5px; margin: 3px 0 6px; }
+.msg { font-size: 12px; margin-bottom: 6px; }
+.msg.sent { color: var(--ok); } .msg.error { color: var(--err); }
+.acts { display: flex; gap: 6px; }
+.logo { width: 20px; height: 20px; }
